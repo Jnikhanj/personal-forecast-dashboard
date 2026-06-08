@@ -19,6 +19,8 @@ const defaults = {
   goalAmount: "",
   goalDate: "2026-08-14",
   goalCurrent: "",
+  goalPayAmount: "",
+  goalSpendPerPay: "",
   goalNextPayday: "",
   goalCycle: "fortnightly",
   goalExpenses: "",
@@ -163,20 +165,39 @@ function renderTime() {
 
 function renderGoal() {
   const targetAmount = number(state.goalAmount);
-  const current = number(state.goalCurrent);
-  const expenses = number(state.goalExpenses);
-  const paydays = countPaydays(state.goalNextPayday, state.goalDate, state.goalCycle);
-  const gap = Math.max(0, targetAmount + expenses - current);
-  const required = paydays > 0 ? gap / paydays : 0;
   const targetDate = parseDate(state.goalDate);
+  const current = number(state.goalCurrent);
+  const payAmount = number(state.goalPayAmount);
+  const spendPerPay = number(state.goalSpendPerPay);
+  const extraExpenses = number(state.goalExpenses);
+  const paydays = countPaydays(state.goalNextPayday, state.goalDate, state.goalCycle);
+  const realisticSavingPerPay = payAmount - spendPerPay;
+  const projectedFromPay = realisticSavingPerPay * paydays;
+  const projectedSavings = current + projectedFromPay - extraExpenses;
+  const gapToClose = Math.max(0, targetAmount + extraExpenses - current);
+  const requiredPerPay = paydays > 0 ? gapToClose / paydays : 0;
+  const surplus = projectedSavings - targetAmount;
 
-  $("goalResult").textContent = currency(required);
-  $("goalSubtitle").textContent = targetDate && targetAmount ? `each payday to reach ${currency(targetAmount)} by ${formatDate(targetDate)}` : "Add target amount, date and payday to calculate.";
+  $("goalResult").textContent = currency(projectedSavings);
+
+  if (!targetAmount || !targetDate) {
+    $("goalSubtitle").textContent = "Add target amount and date to calculate.";
+  } else if (!state.goalNextPayday) {
+    $("goalSubtitle").textContent = `Projected savings by ${formatDate(targetDate)}. Add next payday for payday-based forecast.`;
+  } else {
+    $("goalSubtitle").textContent = surplus >= 0
+      ? `on track by ${currency(surplus)} if you save ${currency(realisticSavingPerPay)} each payday`
+      : `short by ${currency(Math.abs(surplus))} unless income increases or spending reduces`;
+  }
+
   $("goalBreakdown").innerHTML = breakdownHtml([
-    ["Gap to close", currency(gap)],
     ["Paydays available", String(paydays)],
-    ["Expected expenses", currency(expenses), expenses > 0 ? "negative" : ""],
-    ["Required each payday", currency(required), "positive"]
+    ["Pay each payday", currency(payAmount), "positive"],
+    ["Spending each payday", "-" + currency(spendPerPay), spendPerPay > 0 ? "negative" : ""],
+    ["Can save each payday", currency(realisticSavingPerPay), realisticSavingPerPay >= 0 ? "positive" : "negative"],
+    ["Need each payday", currency(requiredPerPay), requiredPerPay <= realisticSavingPerPay ? "positive" : "negative"],
+    ["Extra expenses", "-" + currency(extraExpenses), extraExpenses > 0 ? "negative" : ""],
+    ["Surplus / shortfall", `${surplus >= 0 ? "+" : "-"}${currency(Math.abs(surplus))}`, surplus >= 0 ? "positive" : "negative"]
   ]);
 }
 
