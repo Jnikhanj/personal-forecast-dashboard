@@ -1,0 +1,11 @@
+Upload these files to the root of your GitHub repository, replacing existing files where prompted:
+
+1. icon.svg
+2. apple-touch-icon.png
+3. icon-512.png
+4. manifest.webmanifest
+
+Recommended: upload all four files.
+
+For iPhone home screen icon, apple-touch-icon.png is the important one.
+After uploading, delete the old Home Screen shortcut and add the app again from Safari.
