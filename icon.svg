@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Personal Predictor app icon">
-  <rect width="1024" height="1024" rx="230" fill="#faf8f2"/>
-  <rect x="110" y="110" width="804" height="804" rx="190" fill="#fffefa"/>
-  <path fill="#111111" d="M245 244h292c138 0 238 92 238 222 0 132-100 224-238 224H366v110H245V244Zm121 112v222h156c77 0 129-44 129-112 0-67-52-110-129-110H366Z"/>
-  <rect x="548" y="703" width="220" height="32" rx="16" fill="#2f7d6d"/>
-  <rect x="548" y="755" width="174" height="32" rx="16" fill="#9a742d"/>
-  <rect x="548" y="807" width="124" height="32" rx="16" fill="#476e92"/>
+  <rect width="1024" height="1024" rx="230" fill="#171717"/>
+  <rect x="96" y="96" width="832" height="832" rx="196" fill="#1f1f1c"/>
+  <path fill="#faf8f2" d="M247 226h304c143 0 246 95 246 229 0 136-103 231-246 231H372v116H247V226Zm125 115v230h164c80 0 134-46 134-116 0-69-54-114-134-114H372Z"/>
+  <rect x="552" y="724" width="232" height="38" rx="19" fill="#2f7d6d"/>
+  <rect x="552" y="786" width="184" height="38" rx="19" fill="#9a742d"/>
+  <rect x="552" y="848" width="132" height="38" rx="19" fill="#476e92"/>
 </svg>

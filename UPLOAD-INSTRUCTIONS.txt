@@ -1,0 +1,25 @@
+UPLOAD INSTRUCTIONS
+
+Upload every file in this folder to the ROOT of the GitHub repository:
+
+index.html
+style.css
+app.js
+sw.js
+manifest.webmanifest
+README.md
+favicon.png
+apple-touch-icon.png
+icon-192.png
+icon-512.png
+icon.svg
+
+Do not upload the folder itself.
+
+After upload:
+1. Commit changes.
+2. Wait 2-5 minutes for GitHub Pages.
+3. Open your site with ?v=4 at the end once.
+4. Open /apple-touch-icon.png?v=4 to check the dark icon appears.
+5. Delete the old iPhone Home Screen shortcut.
+6. Add the app to Home Screen again from Safari.

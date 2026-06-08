@@ -8,9 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Predictor">
   <title>Personal Predictor</title>
+  <link rel="icon" href="favicon.png" type="image/png">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="style.css?v=3.0">
+  <link rel="stylesheet" href="style.css?v=4.0">
   <link rel="manifest" href="manifest.webmanifest">
 </head>
 <body>
@@ -21,52 +22,27 @@
           <div class="brand">Personal Predictor</div>
           <button class="text-link" type="button" data-open="data">Data</button>
         </header>
-
         <section class="intro">
           <h1>What do you want to predict?</h1>
           <p>Choose a question. Each one opens a focused calculator with optional inputs and a direct answer.</p>
         </section>
-
         <section class="question-list" aria-label="Predictors">
-          <button class="question-row money" type="button" data-open="money">
-            <span class="number">01</span>
-            <span><strong>Money by date</strong><small>How much will I have by a date?</small></span>
-            <span class="arrow">→</span>
-          </button>
-          <button class="question-row leave" type="button" data-open="leave">
-            <span class="number">02</span>
-            <span><strong>Annual leave</strong><small>How much leave will I have?</small></span>
-            <span class="arrow">→</span>
-          </button>
-          <button class="question-row time" type="button" data-open="time">
-            <span class="number">03</span>
-            <span><strong>Time left</strong><small>How many days or fortnights left?</small></span>
-            <span class="arrow">→</span>
-          </button>
-          <button class="question-row goal" type="button" data-open="goal">
-            <span class="number">04</span>
-            <span><strong>Savings goal</strong><small>Can I reach my target from pay and spending?</small></span>
-            <span class="arrow">→</span>
-          </button>
-          <button class="question-row buy" type="button" data-open="buy">
-            <span class="number">05</span>
-            <span><strong>Can I buy this?</strong><small>Will a purchase still be safe?</small></span>
-            <span class="arrow">→</span>
-          </button>
+          <button class="question-row money" type="button" data-open="money"><span class="number">01</span><span><strong>Money by date</strong><small>How much will I have by a date?</small></span><span class="arrow">→</span></button>
+          <button class="question-row leave" type="button" data-open="leave"><span class="number">02</span><span><strong>Annual leave</strong><small>How much leave will I have?</small></span><span class="arrow">→</span></button>
+          <button class="question-row time" type="button" data-open="time"><span class="number">03</span><span><strong>Time left</strong><small>How many days or fortnights left?</small></span><span class="arrow">→</span></button>
+          <button class="question-row goal" type="button" data-open="goal"><span class="number">04</span><span><strong>Savings goal</strong><small>Can I reach my target from pay and spending?</small></span><span class="arrow">→</span></button>
+          <button class="question-row buy" type="button" data-open="buy"><span class="number">05</span><span><strong>Can I buy this?</strong><small>Will a purchase still be safe?</small></span><span class="arrow">→</span></button>
         </section>
-
         <button class="default-card" type="button" data-open="money">
           <span><small>Default</small><strong>Next: Money by date</strong><em id="homeDefaultDate">Editable target date</em></span>
           <b>Start</b>
         </button>
-
         <p class="privacy-note">No required fields except the question’s target field. Blank fields are ignored or treated as zero.</p>
       </section>
 
       <section class="screen predictor money" id="screen-money">
         <header class="predictor-top"><button class="back" type="button" data-open="home">‹</button><div><small>01</small><h1>Money by date</h1></div></header>
         <p class="screen-help">Pick a date, add what you know, and the answer updates immediately.</p>
-
         <div class="field"><label for="moneyDate">Date <b>needed</b></label><input id="moneyDate" type="date" data-field="moneyDate"></div>
         <div class="field"><label for="moneyCurrent">Current savings <span>optional</span></label><input id="moneyCurrent" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="moneyCurrent"></div>
         <div class="field"><label for="moneyPerPay">Money added each payday <span>optional</span></label><input id="moneyPerPay" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="moneyPerPay"></div>
@@ -78,7 +54,6 @@
           <div class="field"><label for="moneyIncome">Extra income <span>optional</span></label><input id="moneyIncome" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="moneyIncome"></div>
           <div class="field"><label for="moneyExpenses">Extra expenses <span>optional</span></label><input id="moneyExpenses" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="moneyExpenses"></div>
         </div>
-
         <section class="result-card"><small>Estimated balance</small><strong id="moneyResult">$0</strong><p id="moneySubtitle">Add a date to calculate.</p></section>
         <section class="breakdown" id="moneyBreakdown"></section>
       </section>
@@ -86,7 +61,6 @@
       <section class="screen predictor leave" id="screen-leave">
         <header class="predictor-top"><button class="back" type="button" data-open="home">‹</button><div><small>02</small><h1>Annual leave</h1></div></header>
         <p class="screen-help">Estimate leave balance by a future date and compare it with planned leave.</p>
-
         <div class="field"><label for="leaveDate">Date <b>needed</b></label><input id="leaveDate" type="date" data-field="leaveDate"></div>
         <div class="field"><label for="leaveCurrent">Current annual leave <span>optional</span></label><input id="leaveCurrent" type="number" inputmode="decimal" step="0.01" placeholder="0 hours" data-field="leaveCurrent"></div>
         <div class="field"><label for="leaveAccrual">Leave accrued each payday <span>optional</span></label><input id="leaveAccrual" type="number" inputmode="decimal" step="0.01" placeholder="0 hours" data-field="leaveAccrual"></div>
@@ -95,7 +69,6 @@
           <div class="field"><label for="leaveCycle">Cycle</label><select id="leaveCycle" data-field="leaveCycle"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select></div>
         </div>
         <div class="field"><label for="leaveRequired">Planned leave needed <span>optional</span></label><input id="leaveRequired" type="number" inputmode="decimal" step="0.01" placeholder="0 hours" data-field="leaveRequired"></div>
-
         <section class="result-card"><small>Estimated leave</small><strong id="leaveResult">0 hrs</strong><p id="leaveSubtitle">Add a date to calculate.</p></section>
         <section class="breakdown" id="leaveBreakdown"></section>
       </section>
@@ -103,20 +76,17 @@
       <section class="screen predictor time" id="screen-time">
         <header class="predictor-top"><button class="back" type="button" data-open="home">‹</button><div><small>03</small><h1>Time left</h1></div></header>
         <p class="screen-help">Count days, weeks, fortnights and paydays to any important date.</p>
-
         <div class="field"><label for="timeDate">Date <b>needed</b></label><input id="timeDate" type="date" data-field="timeDate"></div>
         <div class="split-fields">
           <div class="field"><label for="timeNextPayday">Next payday <span>optional</span></label><input id="timeNextPayday" type="date" data-field="timeNextPayday"></div>
           <div class="field"><label for="timeCycle">Cycle</label><select id="timeCycle" data-field="timeCycle"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select></div>
         </div>
-
         <section class="time-result"><small>Time remaining</small><strong id="timeDays">0</strong><b>days</b><div id="timeStats" class="stat-grid"></div></section>
       </section>
 
       <section class="screen predictor goal" id="screen-goal">
         <header class="predictor-top"><button class="back" type="button" data-open="home">‹</button><div><small>04</small><h1>Savings goal</h1></div></header>
         <p class="screen-help">Use your pay and spending to check whether your target is realistic by the selected date.</p>
-
         <div class="field"><label for="goalAmount">Target amount <b>needed</b></label><input id="goalAmount" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="goalAmount"></div>
         <div class="field"><label for="goalDate">Target date <b>needed</b></label><input id="goalDate" type="date" data-field="goalDate"></div>
         <div class="field"><label for="goalCurrent">Current savings <span>optional</span></label><input id="goalCurrent" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="goalCurrent"></div>
@@ -129,7 +99,6 @@
           <div class="field"><label for="goalCycle">Cycle</label><select id="goalCycle" data-field="goalCycle"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select></div>
         </div>
         <div class="field"><label for="goalExpenses">Extra expenses before target <span>optional</span></label><input id="goalExpenses" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="goalExpenses"></div>
-
         <section class="result-card"><small>Projected savings</small><strong id="goalResult">$0</strong><p id="goalSubtitle">Add target amount, date and payday to calculate.</p></section>
         <section class="breakdown" id="goalBreakdown"></section>
       </section>
@@ -137,7 +106,6 @@
       <section class="screen predictor buy" id="screen-buy">
         <header class="predictor-top"><button class="back" type="button" data-open="home">‹</button><div><small>05</small><h1>Can I buy this?</h1></div></header>
         <p class="screen-help">Check whether a purchase still leaves enough money by your target date.</p>
-
         <div class="field"><label for="buyAmount">Purchase amount <b>needed</b></label><input id="buyAmount" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="buyAmount"></div>
         <div class="field"><label for="buyDate">Target date <b>needed</b></label><input id="buyDate" type="date" data-field="buyDate"></div>
         <div class="field"><label for="buyMinimum">Minimum money left <span>optional</span></label><input id="buyMinimum" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="buyMinimum"></div>
@@ -147,7 +115,6 @@
           <div class="field"><label for="buyNextPayday">Next payday <span>optional</span></label><input id="buyNextPayday" type="date" data-field="buyNextPayday"></div>
           <div class="field"><label for="buyCycle">Cycle</label><select id="buyCycle" data-field="buyCycle"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select></div>
         </div>
-
         <section class="result-card"><small>Decision</small><strong id="buyResult">Check</strong><p id="buySubtitle">Add purchase amount and target date to calculate.</p></section>
         <section class="breakdown" id="buyBreakdown"></section>
       </section>
@@ -164,8 +131,7 @@
       </section>
     </main>
   </div>
-
   <div id="toast" class="toast"></div>
-  <script src="app.js?v=3.1"></script>
+  <script src="app.js?v=4.0"></script>
 </body>
 </html>
