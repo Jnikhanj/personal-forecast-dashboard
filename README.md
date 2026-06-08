@@ -9,7 +9,7 @@ The app starts with a question list. Each question opens its own calculator scre
 1. **Money by date** - predicts how much money may be available by a selected date.
 2. **Annual leave** - estimates leave balance and leave surplus/shortfall by a selected date.
 3. **Time left** - counts days, weeks, fortnights, months and paydays until a selected date.
-4. **Savings goal** - calculates how much needs to be saved each payday to reach a target.
+4. **Savings goal** - uses target amount, target date, current savings, pay amount, spending per payday and extra expenses to show whether the goal is realistic.
 5. **Can I buy this?** - checks whether a purchase still leaves enough money by a selected date.
 
 ## Design rules
@@ -20,6 +20,18 @@ The app starts with a question list. Each question opens its own calculator scre
 - Blank payday fields mean payday-based counts are ignored.
 - The result is shown immediately under the inputs.
 - A breakdown is shown underneath the result.
+
+## Savings goal logic
+
+The savings goal screen estimates realistic saving capacity using:
+
+`pay each payday - spending each payday = can save each payday`
+
+It then compares this with:
+
+`amount still needed ÷ paydays available = need each payday`
+
+The result shows projected savings by the target date, plus whether there is a surplus or shortfall.
 
 ## Privacy
 
