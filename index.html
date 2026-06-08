@@ -3,169 +3,163 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f7f7f5">
+  <meta name="theme-color" content="#faf8f2">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Forecast">
-  <title>Personal Forecast Dashboard</title>
-  <link rel="stylesheet" href="style.css?v=2.0">
+  <meta name="apple-mobile-web-app-title" content="Predictor">
+  <title>Personal Predictor</title>
+  <link rel="stylesheet" href="style.css?v=3.0">
   <link rel="manifest" href="manifest.webmanifest">
 </head>
-<body data-route="home">
+<body>
   <div class="app-shell">
     <main>
       <section class="screen is-active" id="screen-home">
-        <header class="home-header">
-          <button class="circle-button" type="button" data-route="settings" aria-label="Settings">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="8" cy="17" r="2"/></svg>
-          </button>
-          <button class="title-pill" type="button" data-route="home" aria-label="Overview">
-            <span class="mini-dot">$</span><span>Forecast</span>
-          </button>
-          <button class="circle-button" type="button" data-route="items" aria-label="One-off items">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          </button>
+        <header class="home-top">
+          <div class="brand">Personal Predictor</div>
+          <button class="text-link" type="button" data-open="data">Data</button>
         </header>
 
-        <section class="hero-block">
-          <div class="summary-row">
-            <div class="kicker">Savings by vacation</div>
-            <button class="small-pill" type="button" data-route="settings" id="currencyPill">AUD</button>
-          </div>
-          <div class="hero-number" id="savingsVacation">$0</div>
-          <div class="progress-track"><div class="progress-fill" id="targetProgress"></div></div>
-          <div class="summary-line" id="targetProgressText">Set a target to track readiness.</div>
+        <section class="intro">
+          <h1>What do you want to predict?</h1>
+          <p>Choose a question. Each one opens a focused calculator with optional inputs and a direct answer.</p>
         </section>
 
-        <section class="quick-actions">
-          <button class="action-row" type="button" data-route="money"><span class="action-icon">↗</span><span>Money forecast</span><span class="row-arrow">›</span></button>
-          <button class="action-row" type="button" data-route="leave"><span class="action-icon">⌁</span><span>Leave and countdown</span><span class="row-arrow">›</span></button>
-          <button class="action-row" type="button" data-route="items"><span class="action-icon">＋</span><span>One-off expenses / income</span><span class="row-arrow">›</span></button>
+        <section class="question-list" aria-label="Predictors">
+          <button class="question-row money" type="button" data-open="money">
+            <span class="number">01</span>
+            <span><strong>Money by date</strong><small>How much will I have by a date?</small></span>
+            <span class="arrow">→</span>
+          </button>
+          <button class="question-row leave" type="button" data-open="leave">
+            <span class="number">02</span>
+            <span><strong>Annual leave</strong><small>How much leave will I have?</small></span>
+            <span class="arrow">→</span>
+          </button>
+          <button class="question-row time" type="button" data-open="time">
+            <span class="number">03</span>
+            <span><strong>Time left</strong><small>How many days or fortnights left?</small></span>
+            <span class="arrow">→</span>
+          </button>
+          <button class="question-row goal" type="button" data-open="goal">
+            <span class="number">04</span>
+            <span><strong>Savings goal</strong><small>What should I save per payday?</small></span>
+            <span class="arrow">→</span>
+          </button>
+          <button class="question-row buy" type="button" data-open="buy">
+            <span class="number">05</span>
+            <span><strong>Can I buy this?</strong><small>Will a purchase still be safe?</small></span>
+            <span class="arrow">→</span>
+          </button>
         </section>
 
-        <section class="list-section">
-          <div class="list-heading"><div class="kicker">At a glance</div><div class="heading-total" id="todayLine"></div></div>
-          <div class="forecast-list" id="homeSnapshot"></div>
-        </section>
+        <button class="default-card" type="button" data-open="money">
+          <span><small>Default</small><strong>Next: Money by date</strong><em id="homeDefaultDate">Editable target date</em></span>
+          <b>Start</b>
+        </button>
+
+        <p class="privacy-note">No required fields except the question’s target field. Blank fields are ignored or treated as zero.</p>
       </section>
 
-      <section class="screen page-screen" id="screen-money">
-        <header class="page-header simple"><h1>Money forecast</h1><p class="helper-text">Projected savings using paydays, planned saving per pay, and one-off items.</p></header>
+      <section class="screen predictor money" id="screen-money">
+        <header class="predictor-top"><button class="back" type="button" data-open="home">‹</button><div><small>01</small><h1>Money by date</h1></div></header>
+        <p class="screen-help">Pick a date, add what you know, and the answer updates immediately.</p>
 
-        <section class="metric-block">
-          <div class="metric-row"><div><div class="kicker">Vacation date</div><strong id="savingsVacationMoney">$0</strong></div><span id="savingsVacationMeta" class="subtle-pill">Not set</span></div>
-          <div class="metric-row"><div><div class="kicker">End of year</div><strong id="savingsYearEnd">$0</strong></div><span id="savingsYearEndMeta" class="subtle-pill">31 Dec</span></div>
-        </section>
+        <div class="field"><label for="moneyDate">Date <b>needed</b></label><input id="moneyDate" type="date" data-field="moneyDate"></div>
+        <div class="field"><label for="moneyCurrent">Current savings <span>optional</span></label><input id="moneyCurrent" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="moneyCurrent"></div>
+        <div class="field"><label for="moneyPerPay">Money added each payday <span>optional</span></label><input id="moneyPerPay" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="moneyPerPay"></div>
+        <div class="split-fields">
+          <div class="field"><label for="moneyNextPayday">Next payday <span>optional</span></label><input id="moneyNextPayday" type="date" data-field="moneyNextPayday"></div>
+          <div class="field"><label for="moneyCycle">Cycle</label><select id="moneyCycle" data-field="moneyCycle"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select></div>
+        </div>
+        <div class="split-fields">
+          <div class="field"><label for="moneyIncome">Extra income <span>optional</span></label><input id="moneyIncome" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="moneyIncome"></div>
+          <div class="field"><label for="moneyExpenses">Extra expenses <span>optional</span></label><input id="moneyExpenses" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="moneyExpenses"></div>
+        </div>
 
-        <section class="list-section">
-          <div class="list-heading"><div class="kicker">Upcoming paydays</div><div class="heading-total" id="paydaysLeftMeta"></div></div>
-          <div class="forecast-list" id="paydayList"></div>
-        </section>
+        <section class="result-card"><small>Estimated balance</small><strong id="moneyResult">$0</strong><p id="moneySubtitle">Add a date to calculate.</p></section>
+        <section class="breakdown" id="moneyBreakdown"></section>
       </section>
 
-      <section class="screen page-screen" id="screen-leave">
-        <header class="page-header simple"><h1>Leave</h1><p class="helper-text">Annual leave balance, leave gap, and vacation countdown.</p></header>
+      <section class="screen predictor leave" id="screen-leave">
+        <header class="predictor-top"><button class="back" type="button" data-open="home">‹</button><div><small>02</small><h1>Annual leave</h1></div></header>
+        <p class="screen-help">Estimate leave balance by a future date and compare it with planned leave.</p>
 
-        <section class="hero-block compact">
-          <div class="summary-row"><div class="kicker">Annual leave by vacation</div><span class="small-pill plain" id="leaveGapBadge">0 hrs</span></div>
-          <div class="hero-number small" id="leaveByVacation">0 hrs</div>
-          <div class="summary-line" id="leaveByVacationMeta"></div>
-        </section>
+        <div class="field"><label for="leaveDate">Date <b>needed</b></label><input id="leaveDate" type="date" data-field="leaveDate"></div>
+        <div class="field"><label for="leaveCurrent">Current annual leave <span>optional</span></label><input id="leaveCurrent" type="number" inputmode="decimal" step="0.01" placeholder="0 hours" data-field="leaveCurrent"></div>
+        <div class="field"><label for="leaveAccrual">Leave accrued each payday <span>optional</span></label><input id="leaveAccrual" type="number" inputmode="decimal" step="0.01" placeholder="0 hours" data-field="leaveAccrual"></div>
+        <div class="split-fields">
+          <div class="field"><label for="leaveNextPayday">Next payday <span>optional</span></label><input id="leaveNextPayday" type="date" data-field="leaveNextPayday"></div>
+          <div class="field"><label for="leaveCycle">Cycle</label><select id="leaveCycle" data-field="leaveCycle"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select></div>
+        </div>
+        <div class="field"><label for="leaveRequired">Planned leave needed <span>optional</span></label><input id="leaveRequired" type="number" inputmode="decimal" step="0.01" placeholder="0 hours" data-field="leaveRequired"></div>
 
-        <section class="list-section">
-          <div class="list-heading"><div class="kicker">Leave details</div><div class="heading-total" id="tripCountdownSmall"></div></div>
-          <div class="forecast-list" id="leaveSnapshot"></div>
-        </section>
+        <section class="result-card"><small>Estimated leave</small><strong id="leaveResult">0 hrs</strong><p id="leaveSubtitle">Add a date to calculate.</p></section>
+        <section class="breakdown" id="leaveBreakdown"></section>
       </section>
 
-      <section class="screen page-screen" id="screen-items">
-        <header class="page-header simple"><h1>One-off items</h1><p class="helper-text">Add expenses or income that should affect the forecast before vacation.</p></header>
+      <section class="screen predictor time" id="screen-time">
+        <header class="predictor-top"><button class="back" type="button" data-open="home">‹</button><div><small>03</small><h1>Time left</h1></div></header>
+        <p class="screen-help">Count days, weeks, fortnights and paydays to any important date.</p>
 
-        <section class="form-card">
-          <label class="field-label" for="itemName">Name</label>
-          <input id="itemName" type="text" placeholder="Ferry, flight, bonus">
-          <label class="field-label" for="itemType">Type</label>
-          <select id="itemType"><option value="expense">Expense</option><option value="income">Income</option></select>
-          <label class="field-label" for="itemAmount">Amount</label>
-          <input id="itemAmount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00">
-          <label class="field-label" for="itemDate">Date</label>
-          <input id="itemDate" type="date">
-          <button class="primary-button full-width" id="addItemBtn" type="button">Add item</button>
-        </section>
+        <div class="field"><label for="timeDate">Date <b>needed</b></label><input id="timeDate" type="date" data-field="timeDate"></div>
+        <div class="split-fields">
+          <div class="field"><label for="timeNextPayday">Next payday <span>optional</span></label><input id="timeNextPayday" type="date" data-field="timeNextPayday"></div>
+          <div class="field"><label for="timeCycle">Cycle</label><select id="timeCycle" data-field="timeCycle"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select></div>
+        </div>
 
-        <section class="list-section">
-          <div class="list-heading"><div class="kicker">Saved items</div><div class="heading-total" id="itemsTotal"></div></div>
-          <div class="forecast-list" id="itemsList"></div>
-        </section>
+        <section class="time-result"><small>Time remaining</small><strong id="timeDays">0</strong><b>days</b><div id="timeStats" class="stat-grid"></div></section>
       </section>
 
-      <section class="screen page-screen" id="screen-settings">
-        <header class="page-header simple"><h1>Settings</h1><p class="helper-text">Everything is editable. Your personal numbers stay in this browser.</p></header>
+      <section class="screen predictor goal" id="screen-goal">
+        <header class="predictor-top"><button class="back" type="button" data-open="home">‹</button><div><small>04</small><h1>Savings goal</h1></div></header>
+        <p class="screen-help">Work backwards from your target amount and target date.</p>
 
-        <section class="form-card">
-          <h2>Money</h2>
-          <label class="field-label" for="currencySymbol">Currency symbol</label>
-          <input id="currencySymbol" type="text" maxlength="4" placeholder="$">
-          <label class="field-label" for="currentSavings">Current savings balance</label>
-          <input id="currentSavings" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0">
-          <label class="field-label" for="savingPerPay">Planned saving per pay</label>
-          <input id="savingPerPay" type="number" step="0.01" inputmode="decimal" placeholder="0">
-          <label class="field-label" for="tripTarget">Trip savings target</label>
-          <input id="tripTarget" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0">
-        </section>
+        <div class="field"><label for="goalAmount">Target amount <b>needed</b></label><input id="goalAmount" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="goalAmount"></div>
+        <div class="field"><label for="goalDate">Target date <b>needed</b></label><input id="goalDate" type="date" data-field="goalDate"></div>
+        <div class="field"><label for="goalCurrent">Current savings <span>optional</span></label><input id="goalCurrent" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="goalCurrent"></div>
+        <div class="split-fields">
+          <div class="field"><label for="goalNextPayday">Next payday <span>optional</span></label><input id="goalNextPayday" type="date" data-field="goalNextPayday"></div>
+          <div class="field"><label for="goalCycle">Cycle</label><select id="goalCycle" data-field="goalCycle"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select></div>
+        </div>
+        <div class="field"><label for="goalExpenses">Expected expenses before date <span>optional</span></label><input id="goalExpenses" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="goalExpenses"></div>
 
-        <section class="form-card">
-          <h2>Pay cycle</h2>
-          <label class="field-label" for="payFrequency">Pay frequency</label>
-          <select id="payFrequency"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select>
-          <label class="field-label" for="nextPayDate">Next payday</label>
-          <input id="nextPayDate" type="date">
-        </section>
+        <section class="result-card"><small>Save each payday</small><strong id="goalResult">$0</strong><p id="goalSubtitle">Add target amount, date and payday to calculate.</p></section>
+        <section class="breakdown" id="goalBreakdown"></section>
+      </section>
 
-        <section class="form-card">
-          <h2>Vacation dates</h2>
-          <label class="field-label" for="vacationStart">Start date</label>
-          <input id="vacationStart" type="date">
-          <label class="field-label" for="vacationEnd">End date</label>
-          <input id="vacationEnd" type="date">
-        </section>
+      <section class="screen predictor buy" id="screen-buy">
+        <header class="predictor-top"><button class="back" type="button" data-open="home">‹</button><div><small>05</small><h1>Can I buy this?</h1></div></header>
+        <p class="screen-help">Check whether a purchase still leaves enough money by your target date.</p>
 
-        <section class="form-card">
-          <h2>Annual leave</h2>
-          <label class="field-label" for="leaveBalanceHours">Current annual leave balance</label>
-          <input id="leaveBalanceHours" type="number" step="0.01" inputmode="decimal" placeholder="Hours">
-          <label class="field-label" for="leaveAccrualPerPay">Leave accrued per pay</label>
-          <input id="leaveAccrualPerPay" type="number" step="0.01" inputmode="decimal" placeholder="Hours per pay">
-          <label class="field-label" for="hoursPerWorkDay">Ordinary hours per work day</label>
-          <input id="hoursPerWorkDay" type="number" step="0.01" inputmode="decimal" placeholder="7.6">
-          <label class="field-label" for="plannedLeaveHours">Planned annual leave required</label>
-          <input id="plannedLeaveHours" type="number" step="0.01" inputmode="decimal" placeholder="Optional manual hours">
-          <p class="helper-text compact">Manual leave hours is more accurate for shift work. If blank, the app estimates Monday to Friday only.</p>
-        </section>
+        <div class="field"><label for="buyAmount">Purchase amount <b>needed</b></label><input id="buyAmount" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="buyAmount"></div>
+        <div class="field"><label for="buyDate">Target date <b>needed</b></label><input id="buyDate" type="date" data-field="buyDate"></div>
+        <div class="field"><label for="buyMinimum">Minimum money left <span>optional</span></label><input id="buyMinimum" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="buyMinimum"></div>
+        <div class="field"><label for="buyCurrent">Current savings <span>optional</span></label><input id="buyCurrent" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="buyCurrent"></div>
+        <div class="field"><label for="buyPerPay">Money added each payday <span>optional</span></label><input id="buyPerPay" type="number" inputmode="decimal" step="0.01" placeholder="$0" data-field="buyPerPay"></div>
+        <div class="split-fields">
+          <div class="field"><label for="buyNextPayday">Next payday <span>optional</span></label><input id="buyNextPayday" type="date" data-field="buyNextPayday"></div>
+          <div class="field"><label for="buyCycle">Cycle</label><select id="buyCycle" data-field="buyCycle"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select></div>
+        </div>
 
-        <section class="form-card">
-          <h2>Data</h2>
-          <p class="helper-text">Export backup regularly. The backup contains the numbers saved in this browser.</p>
-          <div class="grid-two">
-            <button class="secondary-button" id="exportBtn" type="button">Export backup</button>
-            <label class="secondary-button file-label" for="importInput">Import backup</label>
-            <input id="importInput" class="hidden-file" type="file" accept="application/json,.json">
-            <button class="danger-button" id="resetBtn" type="button">Reset all</button>
-          </div>
+        <section class="result-card"><small>Decision</small><strong id="buyResult">Check</strong><p id="buySubtitle">Add purchase amount and target date to calculate.</p></section>
+        <section class="breakdown" id="buyBreakdown"></section>
+      </section>
+
+      <section class="screen predictor data" id="screen-data">
+        <header class="predictor-top"><button class="back" type="button" data-open="home">‹</button><div><small>Data</small><h1>Backup</h1></div></header>
+        <p class="screen-help">Your real numbers are saved only in this browser. Export a backup regularly.</p>
+        <section class="data-panel">
+          <button id="exportBtn" class="solid" type="button">Export backup</button>
+          <label class="outline" for="importInput">Import backup</label>
+          <input id="importInput" type="file" accept="application/json,.json" hidden>
+          <button id="resetBtn" class="danger" type="button">Reset all saved data</button>
         </section>
       </section>
     </main>
-
-    <nav class="bottom-nav">
-      <button type="button" data-route="home" class="nav-button is-active"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M4.5 10.8 12 4.7l7.5 6.1V20h-5v-5.4h-5V20h-5v-9.2Z"/></svg><small>Home</small></button>
-      <button type="button" data-route="money" class="nav-button"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M5 19V9m7 10V5m7 14v-7"/></svg><small>Money</small></button>
-      <button type="button" data-route="items" class="nav-add" aria-label="Add item"><svg class="nav-add-icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-      <button type="button" data-route="leave" class="nav-button"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M7 3v4M17 3v4M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg><small>Leave</small></button>
-      <button type="button" data-route="settings" class="nav-button"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="8" cy="17" r="2"/></svg><small>Settings</small></button>
-    </nav>
   </div>
 
-  <div class="toast" id="toast"></div>
-  <script src="app.js?v=2.0"></script>
+  <div id="toast" class="toast"></div>
+  <script src="app.js?v=3.0"></script>
 </body>
 </html>
