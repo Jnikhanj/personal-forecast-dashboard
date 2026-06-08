@@ -2,118 +2,170 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f7f5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Forecast">
   <title>Personal Forecast Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2.0">
   <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#111827">
 </head>
-<body>
-  <div class="wrap">
-    <header class="top">
-      <div>
-        <p class="eyebrow">Offline personal planner</p>
-        <h1>Forecast Dashboard</h1>
-        <p id="todayLine" class="muted"></p>
-      </div>
-      <div class="actions">
-        <button class="secondary" id="toggleSettingsBtn" type="button">Edit settings</button>
-        <button class="secondary" id="exportBtn" type="button">Export backup</button>
-        <label class="file-button secondary" for="importInput">Import backup</label>
-        <input id="importInput" type="file" accept="application/json" hidden>
-      </div>
-    </header>
-
+<body data-route="home">
+  <div class="app-shell">
     <main>
-      <section class="notice"><strong>Private by design:</strong> your numbers are saved in this browser only. The GitHub files contain the app, not your personal financial or leave data.</section>
+      <section class="screen is-active" id="screen-home">
+        <header class="home-header">
+          <button class="circle-button" type="button" data-route="settings" aria-label="Settings">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="8" cy="17" r="2"/></svg>
+          </button>
+          <button class="title-pill" type="button" data-route="home" aria-label="Overview">
+            <span class="mini-dot">$</span><span>Forecast</span>
+          </button>
+          <button class="circle-button" type="button" data-route="items" aria-label="One-off items">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+          </button>
+        </header>
 
-      <section class="grid cards" aria-label="Forecast summary">
-        <article class="card primary"><p class="label">Savings by vacation</p><h2 id="savingsVacation">$0</h2><p id="savingsVacationMeta" class="muted"></p></article>
-        <article class="card"><p class="label">Savings by end of year</p><h2 id="savingsYearEnd">$0</h2><p id="savingsYearEndMeta" class="muted"></p></article>
-        <article class="card"><p class="label">Paydays left</p><h2 id="paydaysLeft">0</h2><p id="paydaysLeftMeta" class="muted"></p></article>
-        <article class="card"><p class="label">Vacation countdown</p><h2 id="tripCountdown">0 days</h2><p id="tripCountdownMeta" class="muted"></p></article>
-        <article class="card"><p class="label">Annual leave by vacation</p><h2 id="leaveByVacation">0 hrs</h2><p id="leaveByVacationMeta" class="muted"></p></article>
-        <article class="card"><p class="label">Leave gap</p><h2 id="leaveGap">0 hrs</h2><p id="leaveGapMeta" class="muted"></p></article>
+        <section class="hero-block">
+          <div class="summary-row">
+            <div class="kicker">Savings by vacation</div>
+            <button class="small-pill" type="button" data-route="settings" id="currencyPill">AUD</button>
+          </div>
+          <div class="hero-number" id="savingsVacation">$0</div>
+          <div class="progress-track"><div class="progress-fill" id="targetProgress"></div></div>
+          <div class="summary-line" id="targetProgressText">Set a target to track readiness.</div>
+        </section>
+
+        <section class="quick-actions">
+          <button class="action-row" type="button" data-route="money"><span class="action-icon">↗</span><span>Money forecast</span><span class="row-arrow">›</span></button>
+          <button class="action-row" type="button" data-route="leave"><span class="action-icon">⌁</span><span>Leave and countdown</span><span class="row-arrow">›</span></button>
+          <button class="action-row" type="button" data-route="items"><span class="action-icon">＋</span><span>One-off expenses / income</span><span class="row-arrow">›</span></button>
+        </section>
+
+        <section class="list-section">
+          <div class="list-heading"><div class="kicker">At a glance</div><div class="heading-total" id="todayLine"></div></div>
+          <div class="forecast-list" id="homeSnapshot"></div>
+        </section>
       </section>
 
-      <section class="grid two">
-        <article class="panel">
-          <div class="panel-head"><div><p class="eyebrow">Target</p><h2>Trip readiness</h2></div><span id="targetBadge" class="badge">No target set</span></div>
-          <div class="progress-track"><div id="targetProgress" class="progress-bar"></div></div>
-          <p id="targetProgressText" class="muted"></p>
-        </article>
-        <article class="panel">
-          <div class="panel-head"><div><p class="eyebrow">Cash movement</p><h2>One-off items before vacation</h2></div></div>
-          <ul id="upcomingItems" class="clean-list"></ul>
-        </article>
+      <section class="screen page-screen" id="screen-money">
+        <header class="page-header simple"><h1>Money forecast</h1><p class="helper-text">Projected savings using paydays, planned saving per pay, and one-off items.</p></header>
+
+        <section class="metric-block">
+          <div class="metric-row"><div><div class="kicker">Vacation date</div><strong id="savingsVacationMoney">$0</strong></div><span id="savingsVacationMeta" class="subtle-pill">Not set</span></div>
+          <div class="metric-row"><div><div class="kicker">End of year</div><strong id="savingsYearEnd">$0</strong></div><span id="savingsYearEndMeta" class="subtle-pill">31 Dec</span></div>
+        </section>
+
+        <section class="list-section">
+          <div class="list-heading"><div class="kicker">Upcoming paydays</div><div class="heading-total" id="paydaysLeftMeta"></div></div>
+          <div class="forecast-list" id="paydayList"></div>
+        </section>
       </section>
 
-      <section class="panel">
-        <div class="panel-head"><div><p class="eyebrow">Timeline</p><h2>Upcoming paydays</h2></div></div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Pay date</th><th>Projected savings after payday</th><th>Notes</th></tr></thead>
-            <tbody id="paydayTable"></tbody>
-          </table>
-        </div>
+      <section class="screen page-screen" id="screen-leave">
+        <header class="page-header simple"><h1>Leave</h1><p class="helper-text">Annual leave balance, leave gap, and vacation countdown.</p></header>
+
+        <section class="hero-block compact">
+          <div class="summary-row"><div class="kicker">Annual leave by vacation</div><span class="small-pill plain" id="leaveGapBadge">0 hrs</span></div>
+          <div class="hero-number small" id="leaveByVacation">0 hrs</div>
+          <div class="summary-line" id="leaveByVacationMeta"></div>
+        </section>
+
+        <section class="list-section">
+          <div class="list-heading"><div class="kicker">Leave details</div><div class="heading-total" id="tripCountdownSmall"></div></div>
+          <div class="forecast-list" id="leaveSnapshot"></div>
+        </section>
       </section>
 
-      <section id="settingsPanel" class="panel hidden">
-        <div class="panel-head"><div><p class="eyebrow">Editable inputs</p><h2>Settings</h2></div><button class="danger" id="resetBtn" type="button">Reset all data</button></div>
-        <form id="settingsForm">
-          <fieldset>
-            <legend>Money forecast</legend>
-            <div class="form-grid">
-              <label>Currency symbol<input id="currencySymbol" type="text" maxlength="4" placeholder="$"></label>
-              <label>Current savings balance<input id="currentSavings" type="number" min="0" step="0.01" placeholder="0"></label>
-              <label>Planned saving per pay<input id="savingPerPay" type="number" step="0.01" placeholder="0"></label>
-              <label>Trip savings target<input id="tripTarget" type="number" min="0" step="0.01" placeholder="0"></label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend>Pay cycle</legend>
-            <div class="form-grid">
-              <label>Pay frequency<select id="payFrequency"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select></label>
-              <label>Next payday<input id="nextPayDate" type="date"></label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend>Vacation / future date</legend>
-            <div class="form-grid">
-              <label>Vacation start date<input id="vacationStart" type="date"></label>
-              <label>Vacation end date<input id="vacationEnd" type="date"></label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend>Annual leave forecast</legend>
-            <div class="form-grid">
-              <label>Current annual leave balance<input id="leaveBalanceHours" type="number" step="0.01" placeholder="0"><span class="helper">In hours.</span></label>
-              <label>Leave accrued per pay<input id="leaveAccrualPerPay" type="number" step="0.01" placeholder="0"><span class="helper">In hours per pay cycle.</span></label>
-              <label>Ordinary hours per work day<input id="hoursPerWorkDay" type="number" step="0.01" placeholder="7.6"><span class="helper">Used only for auto-estimate.</span></label>
-              <label>Planned annual leave required<input id="plannedLeaveHours" type="number" step="0.01" placeholder="Optional"><span class="helper">Leave blank to estimate Mon-Fri only.</span></label>
-            </div>
-          </fieldset>
-        </form>
+      <section class="screen page-screen" id="screen-items">
+        <header class="page-header simple"><h1>One-off items</h1><p class="helper-text">Add expenses or income that should affect the forecast before vacation.</p></header>
 
-        <section>
-          <div class="panel-head"><div><p class="eyebrow">One-off items</p><h3>Expenses or income before a target date</h3></div></div>
-          <form id="oneOffForm" class="inline-form">
-            <input id="itemName" type="text" placeholder="Name e.g. Ferry, phone, bonus">
-            <select id="itemType" aria-label="Item type"><option value="expense">Expense</option><option value="income">Income</option></select>
-            <input id="itemAmount" type="number" min="0" step="0.01" placeholder="Amount">
-            <input id="itemDate" type="date">
-            <button type="submit">Add</button>
-          </form>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Name</th><th>Type</th><th>Amount</th><th>Date</th><th></th></tr></thead>
-              <tbody id="itemsTable"></tbody>
-            </table>
+        <section class="form-card">
+          <label class="field-label" for="itemName">Name</label>
+          <input id="itemName" type="text" placeholder="Ferry, flight, bonus">
+          <label class="field-label" for="itemType">Type</label>
+          <select id="itemType"><option value="expense">Expense</option><option value="income">Income</option></select>
+          <label class="field-label" for="itemAmount">Amount</label>
+          <input id="itemAmount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00">
+          <label class="field-label" for="itemDate">Date</label>
+          <input id="itemDate" type="date">
+          <button class="primary-button full-width" id="addItemBtn" type="button">Add item</button>
+        </section>
+
+        <section class="list-section">
+          <div class="list-heading"><div class="kicker">Saved items</div><div class="heading-total" id="itemsTotal"></div></div>
+          <div class="forecast-list" id="itemsList"></div>
+        </section>
+      </section>
+
+      <section class="screen page-screen" id="screen-settings">
+        <header class="page-header simple"><h1>Settings</h1><p class="helper-text">Everything is editable. Your personal numbers stay in this browser.</p></header>
+
+        <section class="form-card">
+          <h2>Money</h2>
+          <label class="field-label" for="currencySymbol">Currency symbol</label>
+          <input id="currencySymbol" type="text" maxlength="4" placeholder="$">
+          <label class="field-label" for="currentSavings">Current savings balance</label>
+          <input id="currentSavings" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0">
+          <label class="field-label" for="savingPerPay">Planned saving per pay</label>
+          <input id="savingPerPay" type="number" step="0.01" inputmode="decimal" placeholder="0">
+          <label class="field-label" for="tripTarget">Trip savings target</label>
+          <input id="tripTarget" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0">
+        </section>
+
+        <section class="form-card">
+          <h2>Pay cycle</h2>
+          <label class="field-label" for="payFrequency">Pay frequency</label>
+          <select id="payFrequency"><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="monthly">Monthly</option></select>
+          <label class="field-label" for="nextPayDate">Next payday</label>
+          <input id="nextPayDate" type="date">
+        </section>
+
+        <section class="form-card">
+          <h2>Vacation dates</h2>
+          <label class="field-label" for="vacationStart">Start date</label>
+          <input id="vacationStart" type="date">
+          <label class="field-label" for="vacationEnd">End date</label>
+          <input id="vacationEnd" type="date">
+        </section>
+
+        <section class="form-card">
+          <h2>Annual leave</h2>
+          <label class="field-label" for="leaveBalanceHours">Current annual leave balance</label>
+          <input id="leaveBalanceHours" type="number" step="0.01" inputmode="decimal" placeholder="Hours">
+          <label class="field-label" for="leaveAccrualPerPay">Leave accrued per pay</label>
+          <input id="leaveAccrualPerPay" type="number" step="0.01" inputmode="decimal" placeholder="Hours per pay">
+          <label class="field-label" for="hoursPerWorkDay">Ordinary hours per work day</label>
+          <input id="hoursPerWorkDay" type="number" step="0.01" inputmode="decimal" placeholder="7.6">
+          <label class="field-label" for="plannedLeaveHours">Planned annual leave required</label>
+          <input id="plannedLeaveHours" type="number" step="0.01" inputmode="decimal" placeholder="Optional manual hours">
+          <p class="helper-text compact">Manual leave hours is more accurate for shift work. If blank, the app estimates Monday to Friday only.</p>
+        </section>
+
+        <section class="form-card">
+          <h2>Data</h2>
+          <p class="helper-text">Export backup regularly. The backup contains the numbers saved in this browser.</p>
+          <div class="grid-two">
+            <button class="secondary-button" id="exportBtn" type="button">Export backup</button>
+            <label class="secondary-button file-label" for="importInput">Import backup</label>
+            <input id="importInput" class="hidden-file" type="file" accept="application/json,.json">
+            <button class="danger-button" id="resetBtn" type="button">Reset all</button>
           </div>
         </section>
       </section>
     </main>
+
+    <nav class="bottom-nav">
+      <button type="button" data-route="home" class="nav-button is-active"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M4.5 10.8 12 4.7l7.5 6.1V20h-5v-5.4h-5V20h-5v-9.2Z"/></svg><small>Home</small></button>
+      <button type="button" data-route="money" class="nav-button"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M5 19V9m7 10V5m7 14v-7"/></svg><small>Money</small></button>
+      <button type="button" data-route="items" class="nav-add" aria-label="Add item"><svg class="nav-add-icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button type="button" data-route="leave" class="nav-button"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M7 3v4M17 3v4M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg><small>Leave</small></button>
+      <button type="button" data-route="settings" class="nav-button"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="8" cy="17" r="2"/></svg><small>Settings</small></button>
+    </nav>
   </div>
-  <script src="app.js"></script>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js?v=2.0"></script>
 </body>
 </html>
