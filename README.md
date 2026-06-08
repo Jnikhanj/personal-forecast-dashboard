@@ -1,53 +1,50 @@
-# Personal Forecast Dashboard
+# Personal Predictor
 
-Minimalist offline-first dashboard for personal forecasting.
+A minimalist offline-first personal prediction tool.
 
 ## What it does
 
-- Forecasts savings by vacation date
-- Forecasts savings by end of year
-- Counts paydays left before vacation
-- Shows days, weeks and fortnights until vacation
-- Forecasts annual leave balance by vacation
-- Shows paid leave surplus or shortfall
-- Tracks one-off expenses and income
-- Tracks trip savings target progress
+The app starts with a question list. Each question opens its own calculator screen:
+
+1. **Money by date** - predicts how much money may be available by a selected date.
+2. **Annual leave** - estimates leave balance and leave surplus/shortfall by a selected date.
+3. **Time left** - counts days, weeks, fortnights, months and paydays until a selected date.
+4. **Savings goal** - calculates how much needs to be saved each payday to reach a target.
+5. **Can I buy this?** - checks whether a purchase still leaves enough money by a selected date.
+
+## Design rules
+
+- Each screen answers one specific question.
+- Inputs are optional wherever possible.
+- Blank number fields are treated as zero.
+- Blank payday fields mean payday-based counts are ignored.
+- The result is shown immediately under the inputs.
+- A breakdown is shown underneath the result.
 
 ## Privacy
 
 Your personal numbers are saved only in your browser using local storage.
 
-Do not put your real savings, pay, leave balance or expenses directly into the GitHub code. Enter them inside the dashboard instead.
+Do not put your real savings, pay, leave balance or expenses directly into the GitHub code. Enter them inside the app instead.
 
-## How to use
+## Data
 
-1. Open `index.html`.
-2. Select **Edit settings**.
-3. Enter your current savings, planned saving per pay, next payday, vacation dates and annual leave details.
-4. Add any one-off expense or income items.
-5. Use **Export backup** to save a copy of your dashboard data.
-6. Use **Import backup** to restore the data later.
+Use **Data** on the start screen to:
 
-## Default dates
-
-The default vacation dates are:
-
-- Start: 14 Aug 2026
-- End: 31 Oct 2026
-
-These are editable in the dashboard and can be changed for any future vacation or target date.
+- Export a JSON backup.
+- Import a JSON backup.
+- Reset saved browser data.
 
 ## Files
 
-- `index.html` - app page
-- `style.css` - minimalist interface styling
-- `app.js` - calculations and browser storage
+- `index.html` - app screens
+- `style.css` - interface styling
+- `app.js` - calculations and local browser storage
 - `manifest.webmanifest` - installable web app metadata
 - `sw.js` - offline caching after the first successful load
 
 ## Notes
 
-- Annual leave required can be entered manually.
-- If annual leave required is left blank, the app estimates leave using Monday to Friday only.
-- For shift work, manually entering planned leave hours will be more accurate.
+- The app uses the Apple system font stack on iPhone and Mac.
 - Offline mode works after the app has loaded once in the browser.
+- GitHub stores only the app files, not your private entered values.
